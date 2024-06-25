@@ -110,4 +110,37 @@ Query.prototype.addEmployee = async (inputData) => {
   );
 };
 
+Query.prototype.changeRole = async (inputData) => {
+  // Extract individual properties from the inputData object.
+  const { employee, roles, manager } = inputData;
+
+  // Split the manager's full name into an array containing the first and last names.
+  managerName = manager.split(" ");
+
+  // employee table manager id gotten from query.
+  let managerId = await pool.query(
+    "SELECT e.id FROM employee e WHERE e.first_name =$1 AND e.last_name =$2",
+    [managerName[0], managerName[1]]
+  );
+
+  // role table id gotten from query.
+  let roleId = await pool.query("SELECT r.id FROM role r WHERE r.title =$1", [
+    roles,
+  ]);
+  // Split the manager's full name into an array containing the first and last names.
+  employeeName = employee.split(" ");
+
+  // Modify the role_id and manager_id columns in the employee table for the specified employee.
+  pool.query(
+    `UPDATE employee SET role_id=$1, manager_id=$2 WHERE first_name=$3 AND last_name=$4`,
+    [roleId.rows[0].id, managerId.rows[0].id, employeeName[0], employeeName[1]],
+    (err) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log("Updated specifics of Employee!");
+    }
+  );
+};
+
 module.exports = Query;
