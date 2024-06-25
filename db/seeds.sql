@@ -9,6 +9,6 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
 ('Ryan', 'Howard', 4, 1),
 ('Jim', 'Halpert', 5, 7),
 ('Dwight', 'Schrute', 5, 7),
-('Michael', 'Scott', 5, null), --Highest-level Supervisor other supervisors report to Wayne
+('Michael', 'Scott', 5, NULL), --Highest-level Supervisor other supervisors report to Wayne
 ('Stanley', 'Hudson', 1, 5),
-('Creed', 'Bratton', 4, 1);
+('Creed', 'Bratton', 4, 1); 
