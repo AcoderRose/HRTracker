@@ -42,4 +42,72 @@ Query.prototype.seeManagers = async () => {
   return output;
 };
 
+Query.prototype.addDepartment = (departmentName) => {
+  // department table has new department added
+  pool.query(
+    `INSERT INTO department (name) VALUES ($1)`,
+    [departmentName],
+    (err) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log("Added Department!");
+    }
+  );
+};
+
+Query.prototype.addRole = async (inputData) => {
+  // Extract properties from the inputData object and assign them to variables.
+  const { role, salary, departments } = inputData;
+
+  // department id variable gotten with query
+  let depId = await pool.query(
+    "SELECT department.id FROM department WHERE department.name = $1",
+    [departments]
+  );
+
+  // table has role data added
+  pool.query(
+    `INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)`,
+    [role, salary, depId.rows[0].id],
+    (err) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log("Added role!");
+    }
+  );
+};
+
+Query.prototype.addEmployee = async (inputData) => {
+  // Extract properties from the inputData object and assign them to individual variables.
+  const { firstName, lastName, role, manager } = inputData;
+
+  // role table id gotten with query
+  let roleId = await pool.query("SELECT r.id FROM role r WHERE r.title = $1", [
+    role,
+  ]);
+
+  // Splits the manager's name into an array containing the first name and last name for database insertion.
+  managerName = manager.split(" ");
+
+  // employee table manager id gotten with query
+  let managerId = await pool.query(
+    "SELECT e.id FROM employee e WHERE e.first_name =$1 AND e.last_name =$2",
+    [managerName[0], managerName[1]]
+  );
+
+  // table has employee specifics added.
+  pool.query(
+    `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)`,
+    [firstName, lastName, roleId.rows[0].id, managerId.rows[0].id],
+    (err) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log("Added Employee!");
+    }
+  );
+};
+
 module.exports = Query;
