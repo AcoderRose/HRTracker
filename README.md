@@ -42,9 +42,9 @@ To install HRTracker:
 
 - Adhere to the application's guided prompts to navigate through the menu choices.
 
-[Link to Walk Through Video]()
+[Link to Walk Through Video](https://drive.google.com/file/d/1vBZDhbVeEK3Xo1D6skpk8eZPW_-hZtgs/view?usp=sharing)
 
-![Screenshot of HRTracker]()
+![Screenshot of HRTracker](./images/HRTracker-screenshot.png)
 
 ## Credits
 
